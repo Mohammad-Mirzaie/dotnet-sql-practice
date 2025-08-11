@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  app:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    volumes: [".:/workspaces"]
+    working_dir: /workspaces
+    command: sleep infinity
+    depends_on: [mssql]
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "P@ssw0rd123!"
+      MSSQL_PID: "Developer"
+    ports: ["1433:1433"]
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+volumes:
+  mssql-data:
